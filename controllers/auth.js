@@ -9,6 +9,7 @@ router.post('/login', (req, res) => {
   // look up user
   db.User.findOne({email: req.body.email})
   .then(user => {
+    console.log(user)
     // make sure user exists and has a password
     if (!user || !user.password) {
       return res.status(404).send({message: 'User not found'})
@@ -20,7 +21,7 @@ router.post('/login', (req, res) => {
 
     // good user - issue token
     let token = jwt.sign(user.toJSON(), process.env.JWT_SECRET, {
-      expiresIn: 60 //in seconds
+      expiresIn: 60*60*8 //in seconds
     })
     res.send({token})
 })
@@ -47,7 +48,7 @@ router.post('/signup', (req, res) => {
         .then(newUser => {
           // have new user, now need to make them a token
           let token = jwt.sign(newUser.toJSON(), process.env.JWT_SECRET, {
-            expiresIn: 60 //60*60*8 //8 hours in seconds
+            expiresIn: 60*60*8 //8 hours in seconds
           })
           // then send token to caller
           res.send({ token })

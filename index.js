@@ -21,7 +21,7 @@ app.use('/auth', expressJwt({secret: process.env.JWT_SECRET
 }).unless({ //unless defines exceptions to the rule
   path: [
     {url: '/auth/login', methods: ['POST']},
-    {url: 'auth/signup', methods: ['POST']}
+    {url: '/auth/signup', methods: ['POST']}
   ]
 }), require('./controllers/auth'))
 
